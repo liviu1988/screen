@@ -1,10 +1,11 @@
 {
-  "name": "screenshot-pe-railway",
+  "name": "screenshot-service-final-fixed",
   "version": "1.0.0",
-  "description": "Screenshot service on Railway",
-  "main": "server.js",
+  "description": "A stable screenshot service for Railway",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js",
+    "postinstall": "npm explore chrome-aws-lambda -- npm run postinstall"
   },
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
