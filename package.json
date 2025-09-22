@@ -1,16 +1,13 @@
 {
-  "name": "screenshot-service-final-fixed",
+  "name": "screenshot-final-puppeteer",
   "version": "1.0.0",
-  "description": "A stable screenshot service for Railway",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "npm explore chrome-aws-lambda -- npm run postinstall"
+    "start": "node index.js"
   },
   "dependencies": {
-    "chrome-aws-lambda": "^10.1.0",
     "express": "^4.18.2",
-    "puppeteer-core": "^10.1.0"
+    "puppeteer": "^22.12.0"
   },
   "engines": {
     "node": ">=18"
