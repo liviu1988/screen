@@ -12,7 +12,7 @@ const PUPPETEER_OPTIONS = {
   headless: true
 };
 
-// --- ENDPOINT #1: DOAR PENTRU MOBIL (fără full page, rămâne neschimbat) ---
+// --- ENDPOINT #1: PENTRU MOBIL (neschimbat, este deja corect) ---
 app.get("/mobile-only", async (req, res) => {
   if (req.query.token !== API_SECRET) return res.status(403).send('Acces neautorizat.');
   let browser = null;
@@ -36,9 +36,9 @@ app.get("/mobile-only", async (req, res) => {
   }
 });
 
-// ====================================================================
-// === ENDPOINT #2: PENTRU DESKTOP - CU ÎNĂLȚIME MAXIMĂ LIMITATĂ     ===
-// ====================================================================
+// ================================================================
+// === ENDPOINT #2: PENTRU DESKTOP - METODA CU VIEWPORT FIX       ===
+// ================================================================
 app.get("/desktop-only", async (req, res) => {
     if (req.query.token !== API_SECRET) return res.status(403).send('Acces neautorizat.');
 
@@ -50,39 +50,34 @@ app.get("/desktop-only", async (req, res) => {
     browser = await puppeteer.launch(PUPPETEER_OPTIONS);
     const page = await browser.newPage();
     
+    // --- AICI ESTE NOUA LOGICĂ ---
+    
     const viewportWidth = 1280;
-    // Setăm o înălțime de viewport inițială standard
-    await page.setViewport({ width: viewportWidth, height: 800 }); 
+    const viewportHeight = 3000; // Înălțimea fixă a screenshot-ului
+    
+    // 1. Setăm viewport-ul EXACT la dimensiunea pe care o dorim.
+    await page.setViewport({ width: viewportWidth, height: viewportHeight }); 
+    
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 45000 });
     
-    // --- AICI ESTE MAGIA ---
-    
-    // Definim o înălțime maximă pentru screenshot.
-    // Poți ajusta această valoare. 3000px este un echilibru bun.
-    const maxHeight = 3000;
-    
-    // Facem screenshot-ul folosind opțiunea "clip"
+    // 2. Facem screenshot cu `fullPage: false`. Acesta va fotografia
+    // doar viewport-ul, care acum este de 1280x3000 pixeli.
     const imageBuffer = await page.screenshot({
+        fullPage: false,
         type: 'jpeg',
-        quality: 85,
-        // "clip" definește o zonă exactă de captură:
-        clip: {
-            x: 0, // Începe de la marginea din stânga
-            y: 0, // Începe de la marginea de sus
-            width: viewportWidth, // Lățimea este cea a viewport-ului
-            height: maxHeight   // Înălțimea este limitată la valoarea noastră maximă
-        }
+        quality: 85
     });
     
     res.setHeader("Content-Type", "image/jpeg");
     res.send(imageBuffer);
-  } catch (error) {
+  } catch (error)... {
     console.error("[DESKTOP-ONLY] Eroare:", error);
     res.status(500).send(`A apărut o eroare la generarea imaginii desktop.`);
   } finally {
     if (browser) await browser.close();
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Serverul ascultă pe portul ${PORT}`);
