@@ -55,7 +55,7 @@ app.get("/desktop-only", async (req, res) => {
     const page = await browser.newPage();
     
     const viewportWidth = 1280;
-    const viewportHeight = 3000;
+    const viewportHeight = 812;
     
     await page.setViewport({ width: viewportWidth, height: viewportHeight }); 
     
