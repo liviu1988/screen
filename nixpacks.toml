@@ -1,0 +1,25 @@
+# Fisier: nixpacks.toml
+
+[phases.setup]
+# Instalează bibliotecile de sistem necesare pentru a rula Headless Chrome
+# Lista este luată din documentația oficială Puppeteer
+aptPkgs = [
+  "libnss3",
+  "libatk1.0-0",
+  "libatk-bridge2.0-0",
+  "libgdk-pixbuf2.0-0",
+  "libgtk-3-0",
+  "libgbm-dev",
+  "libasound2",
+  "libxshmfence-dev",
+  "libm M-1-dev",
+  "libxxf86vm-dev",
+  "libxinerama-dev",
+  "libxrandr-dev",
+  "libxcursor-dev",
+  "libxft-dev",
+  "libxkbcommon-x11-dev",
+  "libxss-dev",
+  "libxtst-dev",
+  "libxt-dev"
+]
