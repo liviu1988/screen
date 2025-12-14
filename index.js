@@ -1,6 +1,6 @@
 // index.js
 const express = require("express");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 
 const PORT = process.env.PORT || 3000;
 const API_SECRET = "3732ee153732ee153732ee153732ee153732ee15";
@@ -11,7 +11,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const getExecutablePath = () =>
   process.env.PUPPETEER_EXECUTABLE_PATH ||
   process.env.CHROMIUM_PATH ||
-  (typeof puppeteer.executablePath === "function" ? puppeteer.executablePath() : undefined);
+  "/usr/bin/chromium";
+
 
 const BASE_LAUNCH_ARGS = [
   "--no-sandbox",
