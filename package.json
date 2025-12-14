@@ -1,9 +1,8 @@
 {
   "name": "screenshot-final-puppeteer",
   "version": "1.0.0",
-  "description": "Secure Puppeteer screenshot API (mobile & desktop) for SEO / monitoring",
-  "type": "commonjs",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node index.js"
   },
